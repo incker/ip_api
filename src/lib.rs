@@ -51,7 +51,8 @@ pub struct GeoIp {
     pub zip: String,
     /// Get the location as a tuple of latitude and longitude.
     pub lat: f32,
-    pub lon: f32,
+    #[serde(rename = "lon")]
+    pub lng: f32,
     /// Get the timezone. (e.g. "America/Los_Angeles")
     pub timezone: String,
     /// Get the internet service provider. (e.g. "Google")
