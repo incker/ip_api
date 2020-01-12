@@ -108,4 +108,3 @@ impl GeoIp {
 fn unexpected_json(body: &str, reason: &str) -> IpApiError {
     IpApiError::OtherError(format!("Unexpected response: {}; body is: {}", reason, body))
 }
-
