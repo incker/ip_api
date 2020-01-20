@@ -70,14 +70,13 @@ pub struct GeoIp {
 
 
 impl GeoIp {
-    pub async fn new(host: Option<&str>, ssl: bool) -> Result<GeoIp, IpApiError> {
+    pub fn new(host: Option<&str>, ssl: bool) -> Result<GeoIp, IpApiError> {
         let url = format!("http{}://ip-api.com/json/{}?fields=258047", if ssl { "s" } else { "" }, host.unwrap_or(""));
 
-        let json: Value = reqwest::get(&url).await
+        let json: Value = reqwest::blocking::get(&url)
             .map_err(|e| IpApiError::OtherError(format!("{}", e.description())))?
-            .json::<Value>().await
+            .json::<Value>()
             .map_err(|e| IpApiError::OtherError(format!("Error interpreting body as json; the body is: {}", e.description())))?;
-
 
         match json.get("status").as_ref() {
             Some(Value::String(s)) if s == "success" => {
